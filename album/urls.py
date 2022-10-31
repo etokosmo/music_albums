@@ -1,9 +1,9 @@
 from django.urls import path
 
-from .views import create_album
+from .views import handle_album
 
 app_name = "album"
 
 urlpatterns = [
-    path('api/create', create_album),
+    path('', handle_album),
 ]
