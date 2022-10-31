@@ -53,7 +53,7 @@ class AlbumSerializer(ModelSerializer):
 @api_view(['GET', 'POST'])
 def handle_album(request):
     if request.method == 'GET':
-        albums = Album.objects.all()
+        albums = Album.objects.all().select_related('artist').prefetch_related('tracks')
         serialize_albums = AlbumSerializer(albums, many=True)
         return Response(serialize_albums.data)
     if request.method == 'POST':
