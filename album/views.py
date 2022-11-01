@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from rest_framework import generics, filters
@@ -55,9 +56,10 @@ class AlbumSerializer(ModelSerializer):
 
 class AlbumView(generics.ListAPIView):
     queryset = Album.objects.all().select_related('artist').prefetch_related(
-            'tracks')
+        'tracks')
     serializer_class = AlbumSerializer
     filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['name', 'artist']
 
 
 @api_view(['GET', 'POST'])
@@ -71,3 +73,15 @@ def handle_album(request):
         serializer = AlbumSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.validated_data)
+
+
+def index(request, sort_key=''):
+    payload = {"ordering": sort_key}
+    url = request.build_absolute_uri(reverse_lazy('album:get_album'))
+    response = requests.get(url, params=payload)
+    response.raise_for_status()
+    decoded_response = response.json()
+    captions = decoded_response[0].keys()
+
+    context = {'albums': decoded_response, 'captions': captions}
+    return render(request, 'album/index.html', context=context)
