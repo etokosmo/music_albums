@@ -1,6 +1,7 @@
 from django.urls import path
 
-from .views import handle_album, index, AlbumView
+from .serializers import AlbumView
+from .views import handle_album, index
 
 app_name = "album"
 
