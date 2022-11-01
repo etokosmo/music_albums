@@ -4,8 +4,9 @@ from django.urls import reverse_lazy
 from rest_framework import generics, filters
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.serializers import ModelSerializer, Field
-
+from rest_framework.serializers import ModelSerializer, Field, \
+    HyperlinkedModelSerializer, ValidationError
+import re
 from .models import Album, Artist, Track
 
 
@@ -17,7 +18,19 @@ class AlbumNameField(Field):
         return str(value)
 
     def to_internal_value(self, data):
-        return data
+        try:
+            pattern = r'.+\[\d+\]'
+            result = re.match(pattern, data).group(0)
+            if result == data:
+                return data
+            else:
+                raise ValidationError(
+                    'Format: album[int:year]'
+                )
+        except AttributeError:
+            raise ValidationError(
+                'Format: album[int:year]'
+            )
 
 
 class ArtistSerializer(ModelSerializer):
@@ -29,6 +42,7 @@ class ArtistSerializer(ModelSerializer):
         return str(value)
 
     def to_internal_value(self, data):
+        super().to_internal_value({'name': data})
         return data
 
 
@@ -41,10 +55,36 @@ class TrackSerializer(ModelSerializer):
         return str(value)
 
     def to_internal_value(self, data):
+        super().to_internal_value({'name': data})
         return data
 
 
-class AlbumSerializer(ModelSerializer):
+class AlbumHyperlinkedModelSerializer(HyperlinkedModelSerializer):
+    field_name_map = {}
+
+    def to_representation(self, instance):
+        res = super().to_representation(instance)
+        nres = res.__class__()
+        for k, v in res.items():
+            nres[self.field_name_map.get(k, k)] = v
+        return nres
+
+    def to_internal_value(self, data):
+        for field in self._writable_fields:
+            for name, new_name in self.field_name_map.items():
+                if field.field_name == name:
+                    field.field_name = new_name
+        res = super().to_internal_value(data)
+        nres = res.__class__()
+        for k, v in res.items():
+            nres[self.field_name_map.get(k, k)] = v
+        return nres
+
+
+class AlbumSerializer(AlbumHyperlinkedModelSerializer):
+    field_name_map = {
+        'artist': 'artist@name'
+    }
     album = AlbumNameField()
     artist = ArtistSerializer()
     tracks = TrackSerializer(many=True)
