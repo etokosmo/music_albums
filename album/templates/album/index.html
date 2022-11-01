@@ -9,7 +9,15 @@
 <table class="table w-50 p-3" style="margin: auto;">
     <tr>
         {% for caption in captions %}
-        <th scope="col">{{ caption }}</th>
+
+        <th scope="col">
+
+            {{ caption }}
+            {% if caption == 'name' or caption == 'artist' %}
+            <br>
+            <button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href = '{% url 'album:index' sort_key=caption%}'">sort</button><br>
+            {% endif %}
+        </th>
         {% endfor %}
     </tr>
 
