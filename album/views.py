@@ -1,3 +1,6 @@
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from rest_framework import generics, filters
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer, Field
@@ -50,10 +53,18 @@ class AlbumSerializer(ModelSerializer):
         fields = ['album', 'name', 'artist', 'tracks']
 
 
+class AlbumView(generics.ListAPIView):
+    queryset = Album.objects.all().select_related('artist').prefetch_related(
+            'tracks')
+    serializer_class = AlbumSerializer
+    filter_backends = [filters.OrderingFilter]
+
+
 @api_view(['GET', 'POST'])
 def handle_album(request):
     if request.method == 'GET':
-        albums = Album.objects.all().select_related('artist').prefetch_related('tracks')
+        albums = Album.objects.all().select_related('artist').prefetch_related(
+            'tracks')
         serialize_albums = AlbumSerializer(albums, many=True)
         return Response(serialize_albums.data)
     if request.method == 'POST':
