@@ -92,7 +92,7 @@ You can populate the database with test data to test the service.
 ## Configurations
 
 * Python version: 3.10
-* Libraries: [requirements.txt]()
+* Libraries: [requirements.txt](https://github.com/etokosmo/music_albums/blob/main/requirements.txt)
 
 ## Launch
 
