@@ -29,6 +29,8 @@ The main idea is to serialize according to a given template and sort by fields.
 
 ## Website example
 
+![Albums](https://user-images.githubusercontent.com/93794917/199439438-274d9bd8-ed37-4b32-8ee7-0a69e0815fb9.gif)
+
 ## API
 
 You can send POST request to load album in db to `http://<YOUR_DOMEN>/api/`.
