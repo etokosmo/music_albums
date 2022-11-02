@@ -51,7 +51,10 @@ def index(request, sort_key='') -> render:
     response = requests.get(url, params=payload)
     response.raise_for_status()
     decoded_response = response.json()
-    captions = decoded_response[0].keys()
+    try:
+        captions = decoded_response[0].keys()
+    except IndexError:
+        captions = []
 
     context = {'albums': decoded_response, 'captions': captions}
     return render(request, 'album/index.html', context=context)
