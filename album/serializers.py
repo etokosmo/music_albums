@@ -8,6 +8,7 @@ from .models import Album, Artist, Track
 
 
 class AlbumNameField(Field):
+    """AlbumField Serializer like 'album[int:year]'"""
     def get_attribute(self, instance):
         return instance
 
@@ -31,6 +32,7 @@ class AlbumNameField(Field):
 
 
 class ArtistSerializer(ModelSerializer):
+    """Artist Serializer like Artist.model"""
     class Meta:
         model = Artist
         fields = ['name']
@@ -44,6 +46,7 @@ class ArtistSerializer(ModelSerializer):
 
 
 class TrackSerializer(ModelSerializer):
+    """Track Serializer like Track.model"""
     class Meta:
         model = Track
         fields = ['name']
@@ -57,6 +60,7 @@ class TrackSerializer(ModelSerializer):
 
 
 class AlbumHyperlinkedModelSerializer(HyperlinkedModelSerializer):
+    """Special serializer with field name replacement"""
     field_name_map = {}
 
     def to_representation(self, instance):
@@ -79,6 +83,7 @@ class AlbumHyperlinkedModelSerializer(HyperlinkedModelSerializer):
 
 
 class AlbumSerializer(AlbumHyperlinkedModelSerializer):
+    """Main Album Serializer"""
     field_name_map = {
         'artist': 'artist@name'
     }
@@ -92,6 +97,7 @@ class AlbumSerializer(AlbumHyperlinkedModelSerializer):
 
 
 class AlbumView(generics.ListAPIView):
+    """Album serializer with ordering, only GET"""
     queryset = Album.objects.all().select_related('artist').prefetch_related(
         'tracks')
     serializer_class = AlbumSerializer

@@ -10,7 +10,8 @@ from requests.exceptions import HTTPError
 logger = logging.getLogger(__name__)
 
 
-def load_album(album):
+def load_album(album: dict) -> None:
+    """Load album with POST request"""
     url = 'http://localhost:8000/api/'  # TODO edit url
     headers = {'Content-Type': 'application/json'}
 

@@ -11,13 +11,15 @@ from .serializers import AlbumSerializer
 
 
 def get_year_by_album(album: str) -> int:
+    """Return year from AlbumField like 'album[int:year]'"""
     pattern = r'\[(\d+)\]'
     year = re.search(pattern, album).group(1)
     return int(year)
 
 
 @api_view(['GET', 'POST'])
-def handle_album(request):
+def handle_album(request) -> Response:
+    """API endpoint with serialize album"""
     if request.method == 'GET':
         albums = Album.objects.all().select_related('artist').prefetch_related(
             'tracks')
@@ -42,7 +44,8 @@ def handle_album(request):
         return Response(serializer.validated_data)
 
 
-def index(request, sort_key=''):
+def index(request, sort_key='') -> render:
+    """Render main page with albums from db with API"""
     payload = {"ordering": sort_key}
     url = request.build_absolute_uri(reverse_lazy('album:get_album'))
     response = requests.get(url, params=payload)

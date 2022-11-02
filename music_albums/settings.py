@@ -13,7 +13,6 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env.bool('DEBUG', True)
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', ['127.0.0.1', 'localhost'])
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -60,13 +59,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'music_albums.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 _default_sqlite_url = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 DATABASES = {"default": env.dj_db_url('DATABASE_URL', _default_sqlite_url)}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -86,7 +83,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -97,7 +93,6 @@ TIME_ZONE = 'Europe/Moscow'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
