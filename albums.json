@@ -1,0 +1,55 @@
+[
+  {
+    "album": "The Dark Side Of The Moon[1973]",
+    "name": "The Dark Side Of The Moon",
+    "artist@name": "Pink Floyd",
+    "tracks": [
+      "Speak to Me",
+      "Breathe",
+      "On the Run",
+      "Time",
+      "The Great Gig in the Sky"
+    ]
+  },
+  {
+    "album": "Mack the Knife[1992]",
+    "name": "Mack the Knife",
+    "artist@name": "Louis Armstrong",
+    "tracks": [
+      "High Society",
+      "When It's Sleepy Time Down South",
+      "Rockin' Chair"
+    ]
+  },
+  {
+    "album": "Led Zeppelin II[1969]",
+    "name": "Led Zeppelin II",
+    "artist@name": "Led Zeppelin",
+    "tracks": [
+      "Whole Lotta Love",
+      "What Is and What Should Never Be",
+      "The Lemon Song",
+      "Thank You"
+    ]
+  },
+  {
+    "album": "Nevermind [1991]",
+    "name": "Nevermind ",
+    "artist@name": "Pink Floyd",
+    "tracks": [
+      "Smells Like Teen Spirit",
+      "In Bloom",
+      "Come as You Are"
+    ]
+  },
+  {
+    "album": "Hybrid Theory[2000]",
+    "name": "Hybrid",
+    "artist@name": "Linkin Park",
+    "tracks": [
+      "In the End",
+      "Runaway",
+      "Points of Authority"
+    ]
+  }
+]
